@@ -10,6 +10,9 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHANNEL_NAME = os.getenv("CHANNEL_NAME", "GrandeMOficial")  # opcionalmente com valor padrão
 MONGO_URI = os.getenv("MONGO_URI")
 
+if not BOT_TOKEN or not CHANNEL_NAME or not MONGO_URI:
+    raise RuntimeError("❌ Variáveis de ambiente ausentes! Verifique BOT_TOKEN, CHANNEL_NAME e MONGO_URI.")
+
 # --- Conexão MongoDB ---
 client = MongoClient(MONGO_URI)
 db = client["gacha"]
@@ -278,3 +281,4 @@ bot.add_command(test)
 # --- Rodar bot ---
 if __name__ == "__main__":
     bot.run()
+
