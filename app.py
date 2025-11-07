@@ -1,3 +1,4 @@
+import os
 import random
 import requests
 from twitchio.ext import commands
