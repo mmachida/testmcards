@@ -5,8 +5,7 @@ from twitchio.ext import commands
 from pymongo import MongoClient
 from datetime import datetime, timezone, timedelta
 from flask import Flask
-from threading import Thread
-import datetime
+import threading
 
 # --- Configurações ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -276,7 +275,7 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     # Loga no console quando o site for acessado (ex: por UptimeRobot)
-    agora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"🔁 Ping recebido no Flask às {agora}")
     return "Bot online! 🚀"
 
@@ -296,8 +295,10 @@ bot.add_command(test)
 
 # --- Rodar bot ---
 if __name__ == "__main__":
+    print("🚀 Iniciando Flask e bot da Twitch...")
     threading.Thread(target=run_flask).start()
     bot.run()
+
 
 
 
