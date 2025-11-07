@@ -5,10 +5,8 @@ from twitchio.ext import commands
 from pymongo import MongoClient
 from datetime import datetime, timezone, timedelta
 from flask import Flask
-import threading
-
-
-
+from threading import Thread
+import datetime
 
 # --- Configurações ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -34,15 +32,6 @@ RATES = {
     "epic": 0.06,
     "legendary": 0.02
 }
-
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "Bot GrandeMOficial está rodando!"
-
-def run_flask():
-    app.run(host="0.0.0.0", port=8080)
 
 # --- Cache de cartas por raridade ---
 CARD_CACHE = {}
@@ -281,6 +270,19 @@ class MGachaBot(commands.Bot):
 
 bot = MGachaBot()
 
+# Flask para ficar 24h
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    # Loga no console quando o site for acessado (ex: por UptimeRobot)
+    agora = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"🔁 Ping recebido no Flask às {agora}")
+    return "Bot online! 🚀"
+
+def run_flask():
+    app.run(host='0.0.0.0', port=8080)
+    
 # --- Comando !test ---
 @commands.command(name="test")
 async def test(ctx):
@@ -296,6 +298,7 @@ bot.add_command(test)
 if __name__ == "__main__":
     threading.Thread(target=run_flask).start()
     bot.run()
+
 
 
 
