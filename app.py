@@ -4,6 +4,18 @@ import requests
 from twitchio.ext import commands
 from pymongo import MongoClient
 from datetime import datetime, timezone, timedelta
+from flask import Flask
+import threading
+
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot GrandeMOficial está rodando!"
+
+def run_flask():
+    app.run(host="0.0.0.0", port=8080)
 
 # --- Configurações ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -279,6 +291,8 @@ async def test(ctx):
 bot.add_command(test)
 
 # --- Rodar bot ---
+threading.Thread(target=run_flask).start()
 if __name__ == "__main__":
     bot.run()
+
 
