@@ -5,7 +5,7 @@ from twitchio.ext import commands
 from pymongo import MongoClient
 from datetime import datetime, timezone, timedelta
 from flask import Flask
-import threading
+from threading import Thread
 
 # --- Configurações ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -300,6 +300,7 @@ if __name__ == "__main__":
     flask_thread.daemon = True
     flask_thread.start()
     bot.run()
+
 
 
 
